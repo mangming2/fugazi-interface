@@ -9,6 +9,7 @@ import {
   FUGAZI_ADDRESS,
   USD_ADDRESS,
 } from "../assets/address";
+import { executeContractCall, getProviderAndSigner } from "./util";
 
 export const usePoolActionFacet = () => {
   const [isPending, setIsPending] = useState(false);
@@ -16,108 +17,65 @@ export const usePoolActionFacet = () => {
   const provider = new BrowserProvider(window.ethereum);
   const client = new FhenixClient({ provider });
 
-  const getProviderAndSigner = async () => {
-    const provider = new BrowserProvider(window.ethereum);
-    const signer = await provider.getSigner();
-    return { provider, signer };
-  };
-
   const submitSwapOrder = async (typedAmount: number, inputToken: string) => {
-    const { signer } = await getProviderAndSigner();
-    let poolId;
-    let inputTokenAddress;
-    let outputTokenAddress;
-    const registryContract = new ethers.Contract(
-      DIAMOND_ADDRESS,
-      POOL_REGISTRY_FACET_ABI,
-      signer
-    );
-    setIsPending(true);
-    try {
-      poolId = await registryContract.getPoolId(FUGAZI_ADDRESS, USD_ADDRESS);
-      console.log("poolId", poolId);
-    } catch (error) {
-      console.error("Error", error);
-      return "error";
-    } finally {
-      setIsPending(false);
-    }
-
-    const actionContract = new ethers.Contract(
-      DIAMOND_ADDRESS,
-      POOL_ACTION_FACET_ABI,
-      signer
-    );
-    if (inputToken === "FGZ") {
-      inputTokenAddress = FUGAZI_ADDRESS;
-      outputTokenAddress = USD_ADDRESS;
-    } else {
-      inputTokenAddress = USD_ADDRESS;
-      outputTokenAddress = FUGAZI_ADDRESS;
-    }
-    const amountIn = typedAmount;
-    const inputAmount =
-      inputTokenAddress < outputTokenAddress // is inputToken == tokenX?
-        ? (2 << 30) * 0 + (amountIn << 15)
-        : (2 << 30) * 0 + amountIn;
-
-    const encryptedAmountIn = await client.encrypt(
-      inputAmount,
-      EncryptionTypes.uint32
-    );
-
-    setIsPending(true);
-    try {
-      const result = await actionContract.submitOrder(
-        poolId,
-        encryptedAmountIn
+    return executeContractCall(setIsPending, async () => {
+      const { signer } = await getProviderAndSigner();
+      let poolId;
+      let inputTokenAddress;
+      let outputTokenAddress;
+      const registryContract = new ethers.Contract(
+        DIAMOND_ADDRESS,
+        POOL_REGISTRY_FACET_ABI,
+        signer
       );
-      console.log("swap order result", result);
-      return result;
-    } catch (error) {
-      console.error("Error", error);
-      return "error";
-    } finally {
-      setIsPending(false);
-    }
+      poolId = await registryContract.getPoolId(FUGAZI_ADDRESS, USD_ADDRESS);
+
+      await executeContractCall(setIsPending, async () => {
+        const actionContract = new ethers.Contract(
+          DIAMOND_ADDRESS,
+          POOL_ACTION_FACET_ABI,
+          signer
+        );
+        if (inputToken === "FGZ") {
+          inputTokenAddress = FUGAZI_ADDRESS;
+          outputTokenAddress = USD_ADDRESS;
+        } else {
+          inputTokenAddress = USD_ADDRESS;
+          outputTokenAddress = FUGAZI_ADDRESS;
+        }
+        const amountIn = typedAmount;
+        const inputAmount =
+          inputTokenAddress < outputTokenAddress // is inputToken == tokenX?
+            ? (2 << 30) * 0 + (amountIn << 15)
+            : (2 << 30) * 0 + amountIn;
+
+        const encryptedAmountIn = await client.encrypt(
+          inputAmount,
+          EncryptionTypes.uint32
+        );
+
+        const result = await actionContract.submitOrder(
+          poolId,
+          encryptedAmountIn
+        );
+        console.log("swap order result", result);
+        return result;
+      });
+    });
   };
 
   const settleSwapBatch = async (poolId: string) => {
-    const { signer } = await getProviderAndSigner();
-    //let poolId;
-    const registryContract = new ethers.Contract(
-      DIAMOND_ADDRESS,
-      POOL_REGISTRY_FACET_ABI,
-      signer
-    );
-    setIsPending(true);
-    // try {
-    //   poolId = await registryContract.getPoolId(FUGAZI_ADDRESS, USD_ADDRESS);
-    //   console.log("poolId", poolId);
-    // } catch (error) {
-    //   console.error("Error", error);
-    //   return "error";
-    // } finally {
-    //   setIsPending(false);
-    // }
-
-    const actionContract = new ethers.Contract(
-      DIAMOND_ADDRESS,
-      POOL_ACTION_FACET_ABI,
-      signer
-    );
-
-    setIsPending(true);
-    try {
+    return executeContractCall(setIsPending, async () => {
+      const { signer } = await getProviderAndSigner();
+      const actionContract = new ethers.Contract(
+        DIAMOND_ADDRESS,
+        POOL_ACTION_FACET_ABI,
+        signer
+      );
       const result = await actionContract.settleBatch(poolId);
       console.log("settle order result", result);
       return result;
-    } catch (error) {
-      console.error("Error", error);
-      return "error";
-    } finally {
-      setIsPending(false);
-    }
+    });
   };
 
   const claimOrder = async (poolId: string, epoch: string) => {

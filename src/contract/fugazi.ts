@@ -8,23 +8,13 @@ import {
 import { BrowserProvider, ethers } from "ethers";
 import { useState } from "react";
 import { FUGAZI_ADDRESS, DIAMOND_ADDRESS } from "../assets/address";
+import { getProviderAndSigner } from "./util";
 
 export const useFugazi = () => {
   const [isPending, setIsPending] = useState(false);
 
   const provider = new BrowserProvider(window.ethereum);
   const client = new FhenixClient({ provider });
-
-  const getProviderAndSigner = async () => {
-    const provider = new BrowserProvider(window.ethereum);
-    const signer = await provider.getSigner();
-    return { provider, signer };
-  };
-
-  const handleError = (error: Error, message: string) => {
-    console.error(message, error);
-    throw error;
-  };
 
   const approveFugazi = async () => {
     const { signer } = await getProviderAndSigner();

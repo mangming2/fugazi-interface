@@ -9,7 +9,7 @@ export const useDistributor = () => {
 
   const claimTestToken = async (tokenAddress: string) => {
     return executeContractCall(setIsPending, async () => {
-      const { provider, signer } = await getProviderAndSigner();
+      const { signer } = await getProviderAndSigner();
       const contract = new ethers.Contract(
         distributorAddress,
         DISTRIBUTOR_ABI,

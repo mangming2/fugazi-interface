@@ -6,7 +6,7 @@ export const getProviderAndSigner = async () => {
   return { provider, signer };
 };
 
-export const handleError = (error: Error, message: string) => {
+const handleError = (error: Error, message: string) => {
   console.error(message, error);
   throw error;
 };
