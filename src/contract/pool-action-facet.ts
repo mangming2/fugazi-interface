@@ -27,12 +27,38 @@ export const usePoolActionFacet = () => {
       let poolId;
       let inputTokenAddress;
       let outputTokenAddress;
+      switch (inputToken) {
+        case "FGZ":
+          inputTokenAddress = FUGAZI_ADDRESS;
+          break;
+        case "USD":
+          inputTokenAddress = USD_ADDRESS;
+          break;
+        case "EUR":
+          inputTokenAddress = EUR_ADDRESS;
+          break;
+      }
+      switch (outputToken) {
+        case "FGZ":
+          outputTokenAddress = FUGAZI_ADDRESS;
+          break;
+        case "USD":
+          outputTokenAddress = USD_ADDRESS;
+          break;
+        case "EUR":
+          outputTokenAddress = EUR_ADDRESS;
+          break;
+      }
+
       const registryContract = new ethers.Contract(
         DIAMOND_ADDRESS,
         POOL_REGISTRY_FACET_ABI,
         signer
       );
-      poolId = await registryContract.getPoolId(FUGAZI_ADDRESS, USD_ADDRESS);
+      poolId = await registryContract.getPoolId(
+        inputTokenAddress,
+        outputTokenAddress
+      );
 
       await executeContractCall(setIsPending, async () => {
         const actionContract = new ethers.Contract(
@@ -40,28 +66,7 @@ export const usePoolActionFacet = () => {
           POOL_ACTION_FACET_ABI,
           signer
         );
-        switch (inputToken) {
-          case "FGZ":
-            inputTokenAddress = FUGAZI_ADDRESS;
-            break;
-          case "USD":
-            inputTokenAddress = USD_ADDRESS;
-            break;
-          case "EUR":
-            inputTokenAddress = EUR_ADDRESS;
-            break;
-        }
-        switch (outputToken) {
-          case "FGZ":
-            outputTokenAddress = FUGAZI_ADDRESS;
-            break;
-          case "USD":
-            outputTokenAddress = USD_ADDRESS;
-            break;
-          case "EUR":
-            outputTokenAddress = EUR_ADDRESS;
-            break;
-        }
+
         const amountIn = typedAmount;
         const inputAmount =
           inputTokenAddress < outputTokenAddress // is inputToken == tokenX?
@@ -157,27 +162,6 @@ export const usePoolActionFacet = () => {
     let poolId;
     let inputTokenAddress;
     let outputTokenAddress;
-    const registryContract = new ethers.Contract(
-      DIAMOND_ADDRESS,
-      POOL_REGISTRY_FACET_ABI,
-      signer
-    );
-    setIsPending(true);
-    try {
-      poolId = await registryContract.getPoolId(FUGAZI_ADDRESS, USD_ADDRESS);
-      console.log("poolId", poolId);
-    } catch (error) {
-      console.error("Error", error);
-      return "error";
-    } finally {
-      setIsPending(false);
-    }
-
-    const actionContract = new ethers.Contract(
-      DIAMOND_ADDRESS,
-      POOL_ACTION_FACET_ABI,
-      signer
-    );
     switch (inputToken0) {
       case "FGZ":
         inputTokenAddress = FUGAZI_ADDRESS;
@@ -200,6 +184,32 @@ export const usePoolActionFacet = () => {
         outputTokenAddress = EUR_ADDRESS;
         break;
     }
+
+    const registryContract = new ethers.Contract(
+      DIAMOND_ADDRESS,
+      POOL_REGISTRY_FACET_ABI,
+      signer
+    );
+    setIsPending(true);
+    try {
+      poolId = await registryContract.getPoolId(
+        inputTokenAddress,
+        outputTokenAddress
+      );
+      console.log("poolId", poolId);
+    } catch (error) {
+      console.error("Error", error);
+      return "error";
+    } finally {
+      setIsPending(false);
+    }
+
+    const actionContract = new ethers.Contract(
+      DIAMOND_ADDRESS,
+      POOL_ACTION_FACET_ABI,
+      signer
+    );
+
     const amount0 = typedAmount0;
     const amount1 = typedAmount1;
 
