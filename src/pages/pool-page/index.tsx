@@ -10,19 +10,14 @@ const PoolPage = () => {
   const [tokenYAmount, setTokenYAmount] = useState("");
   const [tokenYToken, setTokenYToken] = useState("USD");
 
-  const {
-    isPending: isPendingGetPoolId,
-    submitSwapOrder,
-    settleSwapBatch,
-    addLiquidity,
-  } = usePoolActionFacet();
+  const { isPending: isPendingGetPoolId, addLiquidity } = usePoolActionFacet();
 
   const handleAddLiquidity = async () => {
     await addLiquidity(
       Number(tokenXAmount),
       tokenXToken,
-      Number(tokenYAmount)
-      //tokenYToken
+      Number(tokenYAmount),
+      tokenYToken
     );
   };
 
@@ -52,6 +47,8 @@ const PoolPage = () => {
                     onChange={(e) => setTokenXToken(e.target.value)}
                   >
                     <TokenSelectOption value="FGZ">FGZ</TokenSelectOption>
+                    <TokenSelectOption value="USD">USD</TokenSelectOption>
+                    <TokenSelectOption value="EUR">EUR</TokenSelectOption>
                   </TokenSelect>
                 </InputDiv>
               </InputContainer>
@@ -74,7 +71,9 @@ const PoolPage = () => {
                     value={tokenYToken}
                     onChange={(e) => setTokenYToken(e.target.value)}
                   >
+                    <TokenSelectOption value="FGZ">FGZ</TokenSelectOption>
                     <TokenSelectOption value="USD">USD</TokenSelectOption>
+                    <TokenSelectOption value="EUR">EUR</TokenSelectOption>
                   </TokenSelect>
                 </InputDiv>
               </InputContainer>

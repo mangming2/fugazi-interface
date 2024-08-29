@@ -18,13 +18,20 @@ const SwapPage = () => {
     settleSwapBatch,
   } = usePoolActionFacet();
 
-  const handleTokenChange = (token: string) => {
+  const handleSellTokenChange = (token: string) => {
     setInputToken(token);
-    setOutputToken(token === "FGZ" ? "USD" : "FGZ");
+  };
+
+  const handleBuyTokenChange = (token: string) => {
+    setOutputToken(token);
   };
 
   const handleSwap = async () => {
-    const result = await submitSwapOrder(Number(inputAmount), inputToken);
+    const result = await submitSwapOrder(
+      Number(inputAmount),
+      inputToken,
+      outputToken
+    );
     console.log("result", result);
   };
 
@@ -44,20 +51,32 @@ const SwapPage = () => {
             <InputContainer>
               <TokenContainer>
                 <TokenBox>
-                  <TokenText>
-                    Sell Token <strong>{inputToken}</strong>
-                  </TokenText>
+                  <TokenText>Sell Token</TokenText>
+                  <TokenSelect
+                    value={inputToken}
+                    onChange={(e) => handleSellTokenChange(e.target.value)}
+                  >
+                    <TokenSelectOption value="FGZ">FGZ</TokenSelectOption>
+                    <TokenSelectOption value="USD">USD</TokenSelectOption>
+                    <TokenSelectOption value="EUR">EUR</TokenSelectOption>
+                  </TokenSelect>
                 </TokenBox>
                 <ArrowRight color="white" />
                 <TokenBox>
-                  <TokenText>
-                    Buy Token <strong>{outputToken}</strong>
-                  </TokenText>
+                  <TokenText>Buy Token</TokenText>
+                  <TokenSelect
+                    value={outputToken}
+                    onChange={(e) => handleBuyTokenChange(e.target.value)}
+                  >
+                    <TokenSelectOption value="FGZ">FGZ</TokenSelectOption>
+                    <TokenSelectOption value="USD">USD</TokenSelectOption>
+                    <TokenSelectOption value="EUR">EUR</TokenSelectOption>
+                  </TokenSelect>
                 </TokenBox>
               </TokenContainer>
 
               <SwapHeadContainer>
-                <InputTitle>Sell Amount</InputTitle>
+                {/* <InputTitle>Sell Amount</InputTitle> */}
 
                 <NoiseContainer>
                   <NoiseText>Noise</NoiseText>
@@ -79,15 +98,7 @@ const SwapPage = () => {
                   onChange={(e) => setInputAmount(e.target.value)}
                   placeholder="Input amount"
                 />
-
                 <SelectedToken>{inputToken}</SelectedToken>
-                <TokenSelect
-                  value={inputToken}
-                  onChange={(e) => handleTokenChange(e.target.value)}
-                >
-                  <TokenSelectOption value="FGZ">FGZ</TokenSelectOption>
-                  <TokenSelectOption value="USD">USD</TokenSelectOption>
-                </TokenSelect>
               </InputDiv>
             </InputContainer>
           </InputBox>
@@ -118,12 +129,12 @@ const InputWrapper = tw.div`
 `;
 
 const TokenContainer = tw.div`
-  flex items-center justify-between w-full
+  flex items-center justify-between w-full gap-16
 `;
 
 const TokenBox = tw.div`
-  flex flex-col items-center justify-center
-  bg-green-2 rounded-lg p-12
+  flex items-center justify-center
+  bg-green-2 rounded-lg p-24 gap-12
 `;
 
 const ArrowRight = styled(IconDown)`
@@ -135,15 +146,16 @@ const TokenText = tw.div`
 `;
 
 const InputContainer = tw.div`
-  flex flex-col gap-24 
+  flex flex-col gap-36 
 `;
 
 const InputDiv = tw.div`
-  flex w-380 items-center justify-between
+  flex w-full items-center justify-center
+  gap-8
 `;
 
 const SwapHeadContainer = tw.div`
-  flex items-center justify-between 
+  flex items-center justify-between
 `;
 
 const InputTitle = tw.div`
@@ -189,7 +201,7 @@ const NoiseLevel = tw.div`
 `;
 
 const InputBox = tw.div`
-  flex items-center w-400 p-48
+  flex items-center p-48 gap-8
   border-solid border-5 border-green-3 rounded-lg p-2
   bg-green-1
 `;
@@ -205,7 +217,7 @@ const StyledInput = tw.input`
 
 const TokenSelect = tw.select`
   bg-green-2
-  border-solid border-2 border-green-2
+  border-solid border-2 border-green-3
   focus:(border-solid border-2 border-green-3)
   focus-visible:outline-none
   font-xl-m text-green-7
@@ -217,7 +229,7 @@ const TokenSelectOption = tw.option`
 `;
 
 const SelectedToken = tw.div`
-  flex font-xxl-l text-green-1 p-2
+  flex font-xxxl-b text-white p-2
 `;
 
 interface SwapButtonProps {

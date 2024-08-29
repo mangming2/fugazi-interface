@@ -6,6 +6,7 @@ import { BrowserProvider, ethers } from "ethers";
 import { useState } from "react";
 import {
   DIAMOND_ADDRESS,
+  EUR_ADDRESS,
   FUGAZI_ADDRESS,
   USD_ADDRESS,
 } from "../assets/address";
@@ -13,11 +14,14 @@ import { executeContractCall, getProviderAndSigner } from "./util";
 
 export const usePoolActionFacet = () => {
   const [isPending, setIsPending] = useState(false);
-
   const provider = new BrowserProvider(window.ethereum);
   const client = new FhenixClient({ provider });
 
-  const submitSwapOrder = async (typedAmount: number, inputToken: string) => {
+  const submitSwapOrder = async (
+    typedAmount: number,
+    inputToken: string,
+    outputToken: string
+  ) => {
     return executeContractCall(setIsPending, async () => {
       const { signer } = await getProviderAndSigner();
       let poolId;
@@ -36,12 +40,27 @@ export const usePoolActionFacet = () => {
           POOL_ACTION_FACET_ABI,
           signer
         );
-        if (inputToken === "FGZ") {
-          inputTokenAddress = FUGAZI_ADDRESS;
-          outputTokenAddress = USD_ADDRESS;
-        } else {
-          inputTokenAddress = USD_ADDRESS;
-          outputTokenAddress = FUGAZI_ADDRESS;
+        switch (inputToken) {
+          case "FGZ":
+            inputTokenAddress = FUGAZI_ADDRESS;
+            break;
+          case "USD":
+            inputTokenAddress = USD_ADDRESS;
+            break;
+          case "EUR":
+            inputTokenAddress = EUR_ADDRESS;
+            break;
+        }
+        switch (outputToken) {
+          case "FGZ":
+            outputTokenAddress = FUGAZI_ADDRESS;
+            break;
+          case "USD":
+            outputTokenAddress = USD_ADDRESS;
+            break;
+          case "EUR":
+            outputTokenAddress = EUR_ADDRESS;
+            break;
         }
         const amountIn = typedAmount;
         const inputAmount =
@@ -131,7 +150,8 @@ export const usePoolActionFacet = () => {
   const addLiquidity = async (
     typedAmount0: number,
     inputToken0: string,
-    typedAmount1: number
+    typedAmount1: number,
+    inputToken1: string
   ) => {
     const { signer } = await getProviderAndSigner();
     let poolId;
@@ -158,12 +178,27 @@ export const usePoolActionFacet = () => {
       POOL_ACTION_FACET_ABI,
       signer
     );
-    if (inputToken0 === "FGZ") {
-      inputTokenAddress = FUGAZI_ADDRESS;
-      outputTokenAddress = USD_ADDRESS;
-    } else {
-      inputTokenAddress = USD_ADDRESS;
-      outputTokenAddress = FUGAZI_ADDRESS;
+    switch (inputToken0) {
+      case "FGZ":
+        inputTokenAddress = FUGAZI_ADDRESS;
+        break;
+      case "USD":
+        inputTokenAddress = USD_ADDRESS;
+        break;
+      case "EUR":
+        inputTokenAddress = EUR_ADDRESS;
+        break;
+    }
+    switch (inputToken1) {
+      case "FGZ":
+        outputTokenAddress = FUGAZI_ADDRESS;
+        break;
+      case "USD":
+        outputTokenAddress = USD_ADDRESS;
+        break;
+      case "EUR":
+        outputTokenAddress = EUR_ADDRESS;
+        break;
     }
     const amount0 = typedAmount0;
     const amount1 = typedAmount1;
