@@ -2,9 +2,10 @@ import { useState } from "react";
 import { ethers } from "ethers";
 import { DISTRIBUTOR_ABI } from "../abi/distributor";
 import { executeContractCall, getProviderAndSigner } from "./util";
+import { DISTRIBUTOR_ADDRESS } from "../assets/address";
 
 export const useDistributor = () => {
-  const distributorAddress = "0x27c3C020FD2A88b50Ae66292a4119943cBBE3c92";
+  const distributorAddress = DISTRIBUTOR_ADDRESS;
   const [isPending, setIsPending] = useState(false);
 
   const claimTestToken = async (tokenAddress: string) => {
