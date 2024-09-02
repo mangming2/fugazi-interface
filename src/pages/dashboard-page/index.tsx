@@ -99,11 +99,7 @@ const DashBoard = () => {
     setBalance(Number(result));
   };
 
-  const {
-    isPending: isPendingDistributor,
-    claimTestToken,
-    handleError,
-  } = useDistributor();
+  const { isPending: isPendingDistributor, claimTestToken } = useDistributor();
 
   const handleGetViewerDepositTokenBalance = async () => {
     const result = await getViewerDepositBalance(tokenAddress);
@@ -198,45 +194,6 @@ const DashBoard = () => {
 
       <Header />
       <Container>
-        {/* <BalanceWrapper>
-          <TextWrapper>
-            <BalanceDescription>
-              <ContentTitle>Check My Balance at FuGazi</ContentTitle>
-              <ContentSubTitle>
-                FuGazi is a service that allows you to swap tokens on the Helium
-                network.
-              </ContentSubTitle>
-            </BalanceDescription>
-
-            <BalanceButtonWrapper>
-              <StyledButton onClick={handleGetBalanceOfEncryptedFugazi}>
-                Check My Balance at Account
-              </StyledButton>
-
-              <MyBalance>My Balance : {balance}</MyBalance>
-            </BalanceButtonWrapper>
-
-            <BalanceButtonWrapper>
-              <StyledButton onClick={handleGetViewerDepositFugaziBalance}>
-                Check My FGZ Balance at Deposit
-              </StyledButton>
-
-              <MyBalance>My Balance : {depositBalance}</MyBalance>
-            </BalanceButtonWrapper>
-
-            <BalanceButtonWrapper>
-              <StyledButton onClick={handleGetViewerDepositUsdBalance}>
-                Check My USD Balance at Deposit
-              </StyledButton>
-              <MyBalance>My Balance : {usdBalance}</MyBalance>
-            </BalanceButtonWrapper>
-          </TextWrapper>
-          <ClaimImageWrapper>
-            <ClaimImage src={claim1} alt="claim" />
-            <ClaimButton onClick={handleClaimOrder}>Claim</ClaimButton>
-          </ClaimImageWrapper>
-        </BalanceWrapper> */}
-
         <ContentWrapper>
           <ContentTitle>Token Balance</ContentTitle>
           <TokenBalanceContainer>

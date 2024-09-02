@@ -35,11 +35,6 @@ const SwapPage = () => {
     console.log("result", result);
   };
 
-  // const handleSettle = async () => {
-  //   const result = await settleSwapBatch();
-  //   console.log("result", result);
-  // };
-
   return (
     <Wrapper>
       {isPendingGetPoolId && <Loading />}
@@ -76,8 +71,6 @@ const SwapPage = () => {
               </TokenContainer>
 
               <SwapHeadContainer>
-                {/* <InputTitle>Sell Amount</InputTitle> */}
-
                 <NoiseContainer>
                   <NoiseText>Noise</NoiseText>
                   <Noise
@@ -106,7 +99,6 @@ const SwapPage = () => {
         <SwapButton disabled={!inputAmount} onClick={handleSwap}>
           {!inputAmount ? "Type Amount First" : "Submit Order"}
         </SwapButton>
-        {/* <SwapButton onClick={handleSettle}>Settle Batch FGZ - USD</SwapButton> */}
       </Container>
     </Wrapper>
   );

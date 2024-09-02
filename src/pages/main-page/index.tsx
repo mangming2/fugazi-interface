@@ -2,7 +2,6 @@ import tw from "twin.macro";
 import { Header } from "../../components/header";
 
 import logo from "../../assets/logo-length.png";
-import main1 from "../../assets/main-1.png";
 
 const MainPage = () => {
   return (
@@ -17,22 +16,11 @@ const MainPage = () => {
             }}
           />
           <TextBox>
-            {/* <ServiceDescriptionTitle>FuGazi</ServiceDescriptionTitle> */}
             <ServiceDescriptionSubTitle>
               We are the Most Authentic and the Most Secure Dark Pool.
             </ServiceDescriptionSubTitle>
           </TextBox>
         </ServiceDescription>
-
-        {/* <ServiceDescription>
-        <TextBox>
-          <ServiceDescriptionTitle>FuGazi</ServiceDescriptionTitle>
-          <ServiceDescriptionSubTitle>
-            Fugazi is the first fully on-chain dark pool on Fhenix
-          </ServiceDescriptionSubTitle>
-        </TextBox>
-        <LogoImage src={main1} />
-      </ServiceDescription> */}
       </Body>
     </Wrapper>
   );
@@ -58,10 +46,6 @@ const LogoImage = tw.img`
 
 const TextBox = tw.div`
   flex flex-col gap-24 text-center
-`;
-
-const ServiceDescriptionTitle = tw.div`
-  text-80 font-bold
 `;
 
 const ServiceDescriptionSubTitle = tw.div`
