@@ -5,6 +5,7 @@ import { usePoolActionFacet } from "../../contract/pool-action-facet";
 import Loading from "../../components/loading";
 import styled from "@emotion/styled/macro";
 import { IconDown } from "../../components/icon";
+import { useFugaziOrderFacetContract } from "../../contract/fugazi-order-facet";
 
 const SwapPage = () => {
   const [inputAmount, setInputAmount] = useState<string>("");
@@ -12,8 +13,9 @@ const SwapPage = () => {
   const [outputToken, setOutputToken] = useState<string>("USD");
   const [noiseLevel, setNoiseLevel] = useState<number>(0);
 
-  const { isPending: isPendingGetPoolId, submitSwapOrder } =
-    usePoolActionFacet();
+  const { isPending: isPendingGetPoolId } = usePoolActionFacet();
+
+  const { submitSwapOrder } = useFugaziOrderFacetContract();
 
   const handleSellTokenChange = (token: string) => {
     setInputToken(token);
@@ -28,7 +30,7 @@ const SwapPage = () => {
       Number(inputAmount),
       inputToken,
       outputToken,
-      noiseLevel
+      noiseLevel > 0 ? (noiseLevel / 200) * 2047 : 0
     );
     console.log("result", result);
   };
@@ -74,7 +76,7 @@ const SwapPage = () => {
                   <Noise
                     type="range"
                     min="0"
-                    max="2047"
+                    max="200"
                     value={noiseLevel}
                     onChange={(e) => setNoiseLevel(Number(e.target.value))}
                   />
@@ -236,3 +238,6 @@ const SwapButton = styled.button<SwapButtonProps>(({ disabled }) => [
 ]);
 
 export default SwapPage;
+function useFugaziOrderFacet(): { submitSwapOrder: any } {
+  throw new Error("Function not implemented.");
+}

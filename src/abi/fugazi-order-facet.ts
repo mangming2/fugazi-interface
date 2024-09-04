@@ -1,4 +1,4 @@
-export const POOL_REGISTRY_FACET_ABI = [
+export const FUGAZI_ORDER_FACET_ABI = [
   {
     inputs: [],
     name: "BatchIsInSettlement",
@@ -227,42 +227,6 @@ export const POOL_REGISTRY_FACET_ABI = [
     type: "event",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "tokenX",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "tokenY",
-        type: "address",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "data",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct inEuint32",
-        name: "_initialReserves",
-        type: "tuple",
-      },
-    ],
-    name: "createPool",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "eip712Domain",
     outputs: [
@@ -303,6 +267,62 @@ export const POOL_REGISTRY_FACET_ABI = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "poolId",
+        type: "bytes32",
+      },
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "data",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct inEuint32",
+        name: "_exitAmount",
+        type: "tuple",
+      },
+    ],
+    name: "removeLiquidity",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "poolId",
+        type: "bytes32",
+      },
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "data",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct inEuint64",
+        name: "_packedAmounts",
+        type: "tuple",
+      },
+    ],
+    name: "submitOrder",
+    outputs: [
+      {
+        internalType: "uint32",
+        name: "",
+        type: "uint32",
+      },
+    ],
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];

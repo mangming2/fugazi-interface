@@ -89,6 +89,11 @@ export const VIEWER_ABI = [
   },
   {
     inputs: [],
+    name: "TooEarlyHarvest",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "noCorrespondingFacet",
     type: "error",
   },
@@ -219,6 +224,31 @@ export const VIEWER_ABI = [
         name: "epoch",
         type: "uint32",
       },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "claimer",
+        type: "address",
+      },
+    ],
+    name: "orderClaimed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "bytes32",
+        name: "poolId",
+        type: "bytes32",
+      },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "epoch",
+        type: "uint32",
+      },
     ],
     name: "orderSubmitted",
     type: "event",
@@ -305,9 +335,14 @@ export const VIEWER_ABI = [
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "poolId",
-        type: "bytes32",
+        internalType: "address",
+        name: "tokenX",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "tokenY",
+        type: "address",
       },
       {
         components: [
@@ -341,6 +376,30 @@ export const VIEWER_ABI = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "tokenX",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "tokenY",
+        type: "address",
+      },
+    ],
+    name: "getPoolId",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "bytes32",
         name: "poolId",
         type: "bytes32",
@@ -357,47 +416,6 @@ export const VIEWER_ABI = [
         internalType: "uint32",
         name: "",
         type: "uint32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "poolId",
-        type: "bytes32",
-      },
-      {
-        internalType: "bool",
-        name: "YoverX",
-        type: "bool",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes32",
-            name: "publicKey",
-            type: "bytes32",
-          },
-          {
-            internalType: "bytes",
-            name: "signature",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct Permission",
-        name: "permission",
-        type: "tuple",
-      },
-    ],
-    name: "getPrice",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
       },
     ],
     stateMutability: "view",
@@ -473,6 +491,50 @@ export const VIEWER_ABI = [
   {
     inputs: [],
     name: "getUnclaimedOrdersLength",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "index",
+        type: "uint256",
+      },
+    ],
+    name: "getUnclaimedProtocolOrder",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "bytes32",
+            name: "poolId",
+            type: "bytes32",
+          },
+          {
+            internalType: "uint32",
+            name: "epoch",
+            type: "uint32",
+          },
+        ],
+        internalType: "struct FugaziStorageLayout.unclaimedOrderStruct",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getUnclaimedProtocolOrdersLength",
     outputs: [
       {
         internalType: "uint256",

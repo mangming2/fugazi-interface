@@ -1,4 +1,4 @@
-export const ACCOUNT_ABI = [
+export const FUGAZI_BALANCE_FACET_ABI = [
   {
     inputs: [],
     name: "BatchIsInSettlement",
@@ -58,6 +58,11 @@ export const ACCOUNT_ABI = [
       },
     ],
     name: "StringTooLong",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "TooEarlyHarvest",
     type: "error",
   },
   {
@@ -155,7 +160,7 @@ export const ACCOUNT_ABI = [
         type: "uint32",
       },
     ],
-    name: "epochSettled",
+    name: "batchSettled",
     type: "event",
   },
   {
@@ -175,6 +180,31 @@ export const ACCOUNT_ABI = [
       },
     ],
     name: "facetAdded",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "bytes32",
+        name: "poolId",
+        type: "bytes32",
+      },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "epoch",
+        type: "uint32",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "claimer",
+        type: "address",
+      },
+    ],
+    name: "orderClaimed",
     type: "event",
   },
   {
@@ -227,6 +257,31 @@ export const ACCOUNT_ABI = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "poolId",
+        type: "bytes32",
+      },
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "data",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct inEuint32",
+        name: "_amount",
+        type: "tuple",
+      },
+    ],
+    name: "donateToProtocol",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "eip712Domain",
     outputs: [
@@ -267,6 +322,19 @@ export const ACCOUNT_ABI = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "poolId",
+        type: "bytes32",
+      },
+    ],
+    name: "harvest",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

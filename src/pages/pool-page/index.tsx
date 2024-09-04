@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePoolActionFacet } from "../../contract/pool-action-facet";
 import Loading from "../../components/loading";
 import styled from "@emotion/styled";
+import { useFugaziOrderFacetContract } from "../../contract/fugazi-order-facet";
 
 const PoolPage = () => {
   const [tokenXAmount, setTokenXAmount] = useState("");
@@ -12,20 +13,25 @@ const PoolPage = () => {
   const [tokenYToken, setTokenYToken] = useState("USD");
   const [noiseLevel, setNoiseLevel] = useState<number>(0);
 
-  const { isPending: isPendingGetPoolId, addLiquidity } = usePoolActionFacet();
+  const { isPending: isPendingGetPoolId } = usePoolActionFacet();
+
+  const { isPending: isPendingAddLiquidity, addLiquidity } =
+    useFugaziOrderFacetContract();
 
   const handleAddLiquidity = async () => {
     await addLiquidity(
       Number(tokenXAmount),
       tokenXToken,
       Number(tokenYAmount),
-      tokenYToken
+      tokenYToken,
+      noiseLevel > 0 ? (noiseLevel / 200) * 2047 : 0
+      //noiseLevel
     );
   };
 
   return (
     <Wrapper>
-      {isPendingGetPoolId && <Loading />}
+      {isPendingGetPoolId || (isPendingAddLiquidity && <Loading />)}
       <Header />
       <Container>
         <Title>Add Liquidity to Pool</Title>
@@ -86,7 +92,7 @@ const PoolPage = () => {
               <Noise
                 type="range"
                 min="0"
-                max="2047"
+                max="200"
                 value={noiseLevel}
                 onChange={(e) => setNoiseLevel(Number(e.target.value))}
               />
@@ -214,3 +220,6 @@ const NoiseLevel = tw.div`
 `;
 
 export default PoolPage;
+function useFugaziOrderFacet(): { addLiquidity: any } {
+  throw new Error("Function not implemented.");
+}

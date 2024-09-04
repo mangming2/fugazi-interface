@@ -7,7 +7,7 @@ import {
 } from "fhenixjs";
 import { BrowserProvider, ethers } from "ethers";
 import { useState } from "react";
-import { FUGAZI_ADDRESS, DIAMOND_ADDRESS } from "../assets/address";
+import { FUGAZI_ADDRESS, CORE_ADDRESS } from "../assets/address";
 import { getProviderAndSigner } from "./util";
 
 export const useFugazi = () => {
@@ -23,12 +23,12 @@ export const useFugazi = () => {
       1,
       EncryptionTypes.uint32
     );
-    const result = await contract.approveEncrypted(DIAMOND_ADDRESS, encrypted);
+    const result = await contract.approveEncrypted(CORE_ADDRESS, encrypted);
     console.log("Result", result);
     return result;
   };
 
-  const getBalanceOfEncryptedFugazi = async ({ tokenAddress }) => {
+  const getBalanceOfEncryptedToken = async ({ tokenAddress }) => {
     const { signer } = await getProviderAndSigner();
     let address = await signer.getAddress();
     try {
@@ -66,6 +66,6 @@ export const useFugazi = () => {
   return {
     isPending,
     approveFugazi,
-    getBalanceOfEncryptedFugazi,
+    getBalanceOfEncryptedToken,
   };
 };

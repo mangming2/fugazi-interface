@@ -62,6 +62,11 @@ export const POOL_ACTION_FACET_ABI = [
   },
   {
     inputs: [],
+    name: "TooEarlyHarvest",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "noCorrespondingFacet",
     type: "error",
   },
@@ -155,7 +160,7 @@ export const POOL_ACTION_FACET_ABI = [
         type: "uint32",
       },
     ],
-    name: "epochSettled",
+    name: "batchSettled",
     type: "event",
   },
   {
@@ -192,6 +197,31 @@ export const POOL_ACTION_FACET_ABI = [
         name: "epoch",
         type: "uint32",
       },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "claimer",
+        type: "address",
+      },
+    ],
+    name: "orderClaimed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "bytes32",
+        name: "poolId",
+        type: "bytes32",
+      },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "epoch",
+        type: "uint32",
+      },
     ],
     name: "orderSubmitted",
     type: "event",
@@ -210,6 +240,24 @@ export const POOL_ACTION_FACET_ABI = [
       },
     ],
     name: "claim",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "poolId",
+        type: "bytes32",
+      },
+      {
+        internalType: "uint32",
+        name: "epoch",
+        type: "uint32",
+      },
+    ],
+    name: "claimProtocolOrder",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -264,117 +312,9 @@ export const POOL_ACTION_FACET_ABI = [
         name: "poolId",
         type: "bytes32",
       },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "data",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct inEuint32",
-        name: "_exitAmount",
-        type: "tuple",
-      },
-    ],
-    name: "removeLiquidity",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "poolId",
-        type: "bytes32",
-      },
     ],
     name: "settleBatch",
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "poolId",
-        type: "bytes32",
-      },
-    ],
-    name: "settleBatchStep1",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "poolId",
-        type: "bytes32",
-      },
-    ],
-    name: "settleBatchStep2",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "poolId",
-        type: "bytes32",
-      },
-    ],
-    name: "settleBatchStep3",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "poolId",
-        type: "bytes32",
-      },
-    ],
-    name: "settleBatchStep4",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "poolId",
-        type: "bytes32",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "data",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct inEuint32",
-        name: "_packedAmounts",
-        type: "tuple",
-      },
-    ],
-    name: "submitOrder",
-    outputs: [
-      {
-        internalType: "uint32",
-        name: "",
-        type: "uint32",
-      },
-    ],
     stateMutability: "nonpayable",
     type: "function",
   },

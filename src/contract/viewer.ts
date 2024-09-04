@@ -2,7 +2,7 @@ import { VIEWER_ABI } from "../abi/viewer";
 import { getPermit, FhenixClient } from "fhenixjs";
 import { BrowserProvider, ethers } from "ethers";
 import { useState } from "react";
-import { DIAMOND_ADDRESS } from "../assets/address";
+import { CORE_ADDRESS } from "../assets/address";
 import { POOL_REGISTRY_FACET_ABI } from "../abi/pool-registry-facet";
 import { executeContractCall, getProviderAndSigner } from "./util";
 
@@ -16,7 +16,7 @@ export const useViewer = () => {
       const { signer } = await getProviderAndSigner();
       const provider = new BrowserProvider(window.ethereum);
       const client = new FhenixClient({ provider });
-      let permit = await getPermit(DIAMOND_ADDRESS, provider);
+      let permit = await getPermit(CORE_ADDRESS, provider);
       client.storePermit(permit);
       console.log("Permit", permit);
       return permit;
@@ -28,8 +28,8 @@ export const useViewer = () => {
       const { signer } = await getProviderAndSigner();
       const provider = new BrowserProvider(window.ethereum);
       const client = new FhenixClient({ provider });
-      const contract = new ethers.Contract(DIAMOND_ADDRESS, VIEWER_ABI, signer);
-      const permit = await getPermit(DIAMOND_ADDRESS, provider);
+      const contract = new ethers.Contract(CORE_ADDRESS, VIEWER_ABI, signer);
+      const permit = await getPermit(CORE_ADDRESS, provider);
       console.log("Permit", permit);
       client.storePermit(permit); // store 안해주면 에러남
       const permission = client.extractPermitPermission(permit);
@@ -39,7 +39,7 @@ export const useViewer = () => {
         permission
       );
       console.log("Counter", viewBalanceResult);
-      const unsealed = await client.unseal(DIAMOND_ADDRESS, viewBalanceResult);
+      const unsealed = await client.unseal(CORE_ADDRESS, viewBalanceResult);
       console.log("Unsealed", unsealed);
       return unsealed;
     });
@@ -52,26 +52,21 @@ export const useViewer = () => {
     return executeContractCall(setIsPending, async () => {
       const { signer } = await getProviderAndSigner();
       const viewerContract = new ethers.Contract(
-        DIAMOND_ADDRESS,
+        CORE_ADDRESS,
         VIEWER_ABI,
         signer
       );
-      const registryContract = new ethers.Contract(
-        DIAMOND_ADDRESS,
-        POOL_REGISTRY_FACET_ABI,
-        signer
-      );
-      const permit = await getPermit(DIAMOND_ADDRESS, provider);
+      const permit = await getPermit(CORE_ADDRESS, provider);
       console.log("Permit", permit);
       client.storePermit(permit);
       setIsPending(true);
 
-      const poolId = await registryContract.getPoolId(
+      const lpBalance = await viewerContract.getLPBalance(
         tokenAddress1,
-        tokenAddress2
+        tokenAddress2,
+        permit
       );
-      const lpBalance = await viewerContract.getLPBalance(poolId, permit);
-      const unsealed = await client.unseal(DIAMOND_ADDRESS, lpBalance);
+      const unsealed = await client.unseal(CORE_ADDRESS, lpBalance);
       console.log("Lp Balance", lpBalance);
       return unsealed;
     });
@@ -80,7 +75,7 @@ export const useViewer = () => {
   const getUnclaimedOrders = async () => {
     return executeContractCall(setIsPending, async () => {
       const { signer } = await getProviderAndSigner();
-      const contract = new ethers.Contract(DIAMOND_ADDRESS, VIEWER_ABI, signer);
+      const contract = new ethers.Contract(CORE_ADDRESS, VIEWER_ABI, signer);
 
       const unclaimedOrders = await contract.getUnclaimedOrders();
 

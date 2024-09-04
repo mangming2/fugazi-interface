@@ -1,12 +1,12 @@
-import { ACCOUNT_ABI } from "../abi/account";
+import { FUGAZI_BALANCE_FACET_ABI } from "../abi/fugazi-balance-facet";
 import { EncryptedUint32, FhenixClient, EncryptionTypes } from "fhenixjs";
 import { JsonRpcProvider, ethers } from "ethers";
 import { useState } from "react";
-import { DIAMOND_ADDRESS } from "../assets/address";
+import { CORE_ADDRESS } from "../assets/address";
 import { FUGAZI_ABI } from "../abi/fugazi";
 import { executeContractCall, getProviderAndSigner } from "./util";
 
-export const useAccountContract = () => {
+export const useFugaziBalanceFacetContract = () => {
   const provider = new JsonRpcProvider("https://api.helium.fhenix.zone/");
   const client = new FhenixClient({ provider });
 
@@ -17,8 +17,8 @@ export const useAccountContract = () => {
       const { signer } = await getProviderAndSigner();
       const recipient = await signer.getAddress();
       const contract = new ethers.Contract(
-        DIAMOND_ADDRESS,
-        ACCOUNT_ABI,
+        CORE_ADDRESS,
+        FUGAZI_BALANCE_FACET_ABI,
         signer
       );
       const encrypted: EncryptedUint32 = await client.encrypt(
@@ -39,8 +39,8 @@ export const useAccountContract = () => {
     return executeContractCall(setIsPending, async () => {
       const { signer } = await getProviderAndSigner();
       const contract = new ethers.Contract(
-        DIAMOND_ADDRESS,
-        ACCOUNT_ABI,
+        CORE_ADDRESS,
+        FUGAZI_BALANCE_FACET_ABI,
         signer
       );
       const tokenContract = new ethers.Contract(
@@ -57,7 +57,7 @@ export const useAccountContract = () => {
       // Approve the token transfer
       await executeContractCall(setIsPending, async () => {
         const approve = await tokenContract.approveEncrypted(
-          DIAMOND_ADDRESS,
+          CORE_ADDRESS,
           encrypted
         );
         console.log("Approve", approve);

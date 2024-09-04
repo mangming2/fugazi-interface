@@ -11,13 +11,14 @@ import {
   FUGAZI_ADDRESS,
   USD_ADDRESS,
 } from "../../assets/address";
-import { useAccountContract } from "../../contract/account";
+import { useFugaziBalanceFacetContract } from "../../contract/fugazi-balance-facet";
 import usdLogo from "../../assets/usd.png";
 import fgzLogo from "../../assets/logo.png";
 import eurLogo from "../../assets/eur.png";
 import styled from "@emotion/styled";
 import { useDistributor } from "../../contract/distributor";
 import { truncateAddress } from "../../utils/string";
+import { useFugaziOrderFacetContract } from "../../contract/fugazi-order-facet";
 
 const dummyLiquidity = [
   {
@@ -67,7 +68,7 @@ const DashBoard = () => {
   const [lpBalance, setLpBalance] = useState<number[]>([]);
   const [unclaimedOrders, setUnclaimedOrders] = useState<any[]>([]);
 
-  const { isPending: isPendingFugazi, getBalanceOfEncryptedFugazi } =
+  const { isPending: isPendingFugazi, getBalanceOfEncryptedToken } =
     useFugazi();
 
   const {
@@ -80,20 +81,22 @@ const DashBoard = () => {
   const {
     isPending: isPendingAction,
     claimOrder,
-    removeLiquidity,
+    //removeLiquidity,
   } = usePoolActionFacet();
+
+  const { removeLiquidity } = useFugaziOrderFacetContract();
 
   const {
     isPending: isPendingAccount,
     withdraw,
     deposit,
-  } = useAccountContract();
+  } = useFugaziBalanceFacetContract();
 
   const { isPending: isPendingGetPoolId, settleSwapBatch } =
     usePoolActionFacet();
 
   const handleGetBalanceOfEncryptedToken = async () => {
-    const result = await getBalanceOfEncryptedFugazi({
+    const result = await getBalanceOfEncryptedToken({
       tokenAddress: tokenAddress,
     });
     setBalance(Number(result));
@@ -518,3 +521,6 @@ const TestButton = tw.button`
 `;
 
 export default DashBoard;
+function useFugaziOrderFacet(): { removeLiquidity: any } {
+  throw new Error("Function not implemented.");
+}
