@@ -12,11 +12,8 @@ const SwapPage = () => {
   const [outputToken, setOutputToken] = useState<string>("USD");
   const [noiseLevel, setNoiseLevel] = useState<number>(0);
 
-  const {
-    isPending: isPendingGetPoolId,
-    submitSwapOrder,
-    settleSwapBatch,
-  } = usePoolActionFacet();
+  const { isPending: isPendingGetPoolId, submitSwapOrder } =
+    usePoolActionFacet();
 
   const handleSellTokenChange = (token: string) => {
     setInputToken(token);
@@ -30,7 +27,8 @@ const SwapPage = () => {
     const result = await submitSwapOrder(
       Number(inputAmount),
       inputToken,
-      outputToken
+      outputToken,
+      noiseLevel
     );
     console.log("result", result);
   };
@@ -76,7 +74,7 @@ const SwapPage = () => {
                   <Noise
                     type="range"
                     min="0"
-                    max="100"
+                    max="2047"
                     value={noiseLevel}
                     onChange={(e) => setNoiseLevel(Number(e.target.value))}
                   />

@@ -20,7 +20,8 @@ export const usePoolActionFacet = () => {
   const submitSwapOrder = async (
     typedAmount: number,
     inputToken: string,
-    outputToken: string
+    outputToken: string,
+    noiseAmplitude?: number
   ) => {
     return executeContractCall(setIsPending, async () => {
       const { signer } = await getProviderAndSigner();
@@ -68,10 +69,17 @@ export const usePoolActionFacet = () => {
         );
 
         const amountIn = typedAmount;
-        const inputAmount =
+        let inputAmount =
           inputTokenAddress < outputTokenAddress // is inputToken == tokenX?
             ? (2 << 30) * 0 + (amountIn << 15)
             : (2 << 30) * 0 + amountIn;
+
+        const payPrivacyFeeInX =
+          inputTokenAddress < outputTokenAddress ? true : false;
+
+        inputAmount = payPrivacyFeeInX
+          ? inputAmount + (noiseAmplitude << 32)
+          : inputAmount + 2147483648 + (noiseAmplitude << 32);
 
         const encryptedAmountIn = await client.encrypt(
           inputAmount,

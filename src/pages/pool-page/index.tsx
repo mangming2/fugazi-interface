@@ -3,12 +3,14 @@ import tw from "twin.macro";
 import { useState } from "react";
 import { usePoolActionFacet } from "../../contract/pool-action-facet";
 import Loading from "../../components/loading";
+import styled from "@emotion/styled";
 
 const PoolPage = () => {
   const [tokenXAmount, setTokenXAmount] = useState("");
   const [tokenXToken, setTokenXToken] = useState("FGZ");
   const [tokenYAmount, setTokenYAmount] = useState("");
   const [tokenYToken, setTokenYToken] = useState("USD");
+  const [noiseLevel, setNoiseLevel] = useState<number>(0);
 
   const { isPending: isPendingGetPoolId, addLiquidity } = usePoolActionFacet();
 
@@ -78,6 +80,18 @@ const PoolPage = () => {
                 </InputDiv>
               </InputContainer>
             </InputBox>
+
+            <NoiseContainer>
+              <NoiseText>Noise</NoiseText>
+              <Noise
+                type="range"
+                min="0"
+                max="2047"
+                value={noiseLevel}
+                onChange={(e) => setNoiseLevel(Number(e.target.value))}
+              />
+              <NoiseLevel>{noiseLevel}</NoiseLevel>
+            </NoiseContainer>
           </InputWrapper>
 
           <StyledButton onClick={handleAddLiquidity}>
@@ -106,7 +120,7 @@ const Contents = tw.div`
 `;
 
 const InputWrapper = tw.div`
-  flex flex-col gap-16
+  flex flex-col gap-16 items-center
 `;
 
 const InputContainer = tw.div`
@@ -158,6 +172,45 @@ const StyledButton = tw.button`
   bg-green-2 hover:bg-green-3 text-white font-xl-m h-48 w-200
   px-16 py-2 rounded-md 
   border-solid border-4 border-green-3 cursor-pointer
+`;
+
+const NoiseContainer = tw.div`
+  flex items-center w-full gap-4 p-16 rounded-8
+  bg-green-1 border-solid border-4 border-green-3
+`;
+
+const NoiseText = tw.div`
+  flex font-xxl-l text-green-7 
+`;
+
+const Noise = styled.input`
+  ${tw`h-10`}
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  background: ${tw`bg-green-2`};
+
+  &::-webkit-slider-thumb {
+    ${tw`bg-green-3`}
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  &::-moz-range-thumb {
+    ${tw`bg-green-3`}
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+`;
+
+const NoiseLevel = tw.div`
+  flex font-xxl-l text-green-7 
 `;
 
 export default PoolPage;
