@@ -206,9 +206,9 @@ export const useFugaziOrderFacetContract = () => {
   ) => {
     const { signer } = await getProviderAndSigner();
 
-    const registryContract = new ethers.Contract(
+    const viewerContract = new ethers.Contract(
       CORE_ADDRESS,
-      POOL_REGISTRY_FACET_ABI,
+      VIEWER_ABI,
       signer
     );
 
@@ -219,9 +219,13 @@ export const useFugaziOrderFacetContract = () => {
     );
     setIsPending(true);
     try {
-      const poolId = await registryContract.getPoolId(
+      const permit = await getPermit(CORE_ADDRESS, provider);
+      client.storePermit(permit);
+
+      const poolId = await viewerContract.getPoolId(
         tokenAddress1,
-        tokenAddress2
+        tokenAddress2,
+        permit
       );
 
       const encrypted: EncryptedUint32 = await client.encrypt(
