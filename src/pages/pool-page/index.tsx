@@ -49,7 +49,6 @@ const PoolPage = () => {
                     placeholder="Input amount"
                   />
 
-                  <SelectedToken>{tokenXToken}</SelectedToken>
                   <TokenSelect
                     value={tokenXToken}
                     onChange={(e) => setTokenXToken(e.target.value)}
@@ -74,7 +73,6 @@ const PoolPage = () => {
                     placeholder="Input amount"
                   />
 
-                  <SelectedToken>{tokenYToken}</SelectedToken>
                   <TokenSelect
                     value={tokenYToken}
                     onChange={(e) => setTokenYToken(e.target.value)}
@@ -100,8 +98,13 @@ const PoolPage = () => {
             </NoiseContainer>
           </InputWrapper>
 
-          <StyledButton onClick={handleAddLiquidity}>
-            Add Liquidity
+          <StyledButton
+            onClick={handleAddLiquidity}
+            disabled={tokenXAmount === "" || tokenYAmount === ""}
+          >
+            {tokenXAmount === "" || tokenYAmount === ""
+              ? "Type Amount First"
+              : "Add Liquidity"}
           </StyledButton>
         </Contents>
       </Container>
@@ -118,7 +121,7 @@ const Container = tw.div`
 `;
 
 const Title = tw.h1`
-  text-2xl font-bold mb-4
+  font-40-sb mb-4
 `;
 
 const Contents = tw.div`
@@ -130,63 +133,68 @@ const InputWrapper = tw.div`
 `;
 
 const InputContainer = tw.div`
-  flex flex-col gap-24 
+  flex flex-col gap-24
 `;
 
 const InputDiv = tw.div`
-  flex w-380 items-center justify-between
+  flex w-full items-center justify-between
 `;
 
 const InputTitle = tw.div`
-  font-xxl-b
+  font-xxl-b w-full border-solid border-b-2 border-gray-50
+  border-t-0 border-l-0 border-r-0
 `;
 
 const InputBox = tw.div`
-  flex items-center w-400 p-48
-  border-solid border-5 border-green-3 rounded-lg p-2
-  bg-green-1
+  w-480 p-24
+  rounded-lg
+  bg-gray-0
 `;
 
 const StyledInput = tw.input`
-  text-center w-250 h-60
-  border-solid border-2 border-green-2
-  bg-green-2
-  focus:(border-solid border-2 border-green-3)
+  text-center w-250 h-60 
+  bg-gray-50 border-none
+  focus:(border-solid border-2 border-green)
   focus-visible:outline-none
-  font-xl-m text-green-7
-  
+  font-xl-m text-white
 `;
 
 const TokenSelect = tw.select`
-  bg-green-2
-  border-solid border-2 border-green-2
-  focus:(border-solid border-2 border-green-3)
+  bg-transparent border-none
   focus-visible:outline-none
-  font-xl-m text-green-7
-  placeholder:(text-green-1)
+  font-xxl-b text-white
 `;
 
 const TokenSelectOption = tw.option`
-  w-100 bg-green-2
+  w-100 bg-green
 `;
 
 const SelectedToken = tw.div`
-  flex font-xxl-l text-green-1 p-2
+  flex font-xxl-l text-green p-2
 `;
 
-const StyledButton = tw.button`
-  bg-green-2 hover:bg-green-3 text-white font-xl-m h-48 w-200
+interface SwapButtonProps {
+  disabled?: boolean;
+}
+
+const StyledButton = styled.button<SwapButtonProps>(({ disabled }) => [
+  tw`
+  bg-black text-green font-xxl-b h-48 w-300
   px-16 py-2 rounded-md 
-  border-solid border-4 border-green-3 cursor-pointer
-`;
+  border-solid border-2 border-green cursor-pointer
+  hover:(bg-green text-black)
+`,
+  disabled &&
+    tw`bg-black cursor-not-allowed text-gray-100 border-gray-100 hover:(bg-black text-gray-100)`,
+]);
 
 const NoiseContainer = tw.div`
   flex items-center w-full gap-4 p-16 rounded-8
-  bg-green-1 border-solid border-4 border-green-3
+  bg-gray-0 
 `;
 
 const NoiseText = tw.div`
-  flex font-xxl-l text-green-7 
+  flex font-xxl-l text-green 
 `;
 
 const Noise = styled.input`
@@ -194,10 +202,11 @@ const Noise = styled.input`
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  background: ${tw`bg-green-2`};
+  border-radius: 10px;
+  background: ${tw`bg-gray-50`};
 
   &::-webkit-slider-thumb {
-    ${tw`bg-green-3`}
+    ${tw`bg-black border-solid border-5 border-green`}
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -207,7 +216,7 @@ const Noise = styled.input`
   }
 
   &::-moz-range-thumb {
-    ${tw`bg-green-3`}
+    ${tw`bg-green`}
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -216,7 +225,7 @@ const Noise = styled.input`
 `;
 
 const NoiseLevel = tw.div`
-  flex font-xxl-l text-green-7 
+  flex font-xxl-l text-green 
 `;
 
 export default PoolPage;

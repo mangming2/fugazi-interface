@@ -350,7 +350,7 @@ const Container = tw.div`
 
 const BalanceWrapper = tw.div`
   flex gap-8 p-16 w-800
-  bg-green-1
+  bg-green
 `;
 
 const TextWrapper = tw.div`
@@ -368,12 +368,11 @@ interface TokenBalanceButtonProps {
 const TokenBalanceButton = styled.button<TokenBalanceButtonProps>(
   ({ disabled }) => [
     tw`
-  bg-green-2 hover:bg-green-3 text-white font-xl-m h-48 w-300
+  bg-green hover:bg-green text-white font-xl-m h-48 w-300
   px-16 py-2 rounded-md 
-  border-solid border-2 border-green-3 cursor-pointer
+  border-solid border-2 border-green cursor-pointer
 `,
-    disabled &&
-      tw`bg-green-1 hover:bg-green-1 cursor-not-allowed text-gray-400`,
+    disabled && tw`bg-green hover:bg-green cursor-not-allowed text-gray-400`,
   ]
 );
 
@@ -386,24 +385,24 @@ const BalanceButtonWrapper = tw.div`
 `;
 
 const TokenBalanceContainer = tw.div`
-  flex flex-col items-center justify-between p-8 gap-8 bg-green-2
+  flex flex-col items-center justify-between p-8 gap-8 bg-green
 `;
 
 const BalanceBox = tw.div`
-  flex items-center justify-between p-8 gap-8 bg-green-2
+  flex items-center justify-between p-8 gap-8 bg-green
 `;
 
 const TokenSelect = tw.select`
-  bg-green-2
-  border-solid border-2 border-green-3
-  focus:(border-solid border-2 border-green-3)
+  bg-green
+  border-solid border-2 border-green
+  focus:(border-solid border-2 border-green)
   focus-visible:outline-none
-  font-xl-m text-green-7
-  placeholder:(text-green-1)
+  font-xl-m text-green
+  placeholder:(text-green)
 `;
 
 const TokenSelectOption = tw.option`
-  w-100 bg-green-2
+  w-100 bg-green
 `;
 
 const TokenBalanceText = tw.div`
@@ -416,11 +415,11 @@ const WithdrawInputWrapper = tw.div`
 
 const StyledInput = tw.input`
   text-center w-250 h-40
-  border-solid border-2 border-green-3
-  bg-green-2
-  focus:(border-solid border-2 border-green-3)
+  border-solid border-2 border-green
+  bg-green
+  focus:(border-solid border-2 border-green)
   focus-visible:outline-none
-  font-xl-m text-green-7
+  font-xl-m text-green
 `;
 
 const ClaimImageWrapper = tw.div`
@@ -428,18 +427,18 @@ const ClaimImageWrapper = tw.div`
 `;
 
 const ClaimButton = tw.button`
-  bg-green-2 hover:bg-green-3 text-white font-semibold h-36 w-150
+  bg-green hover:bg-green text-white font-semibold h-36 w-150
   px-16 py-2 rounded-md 
   border-none
 `;
 
 const LiquidityWrapper = tw.div`
   flex flex-col gap-8 p-16 w-800
-  bg-green-1
+  bg-green
 `;
 
 const Liquidity = tw.div`
-  flex items-center justify-between p-8 gap-8 bg-green-2
+  flex items-center justify-between p-8 gap-8 bg-green
 `;
 
 const LiquidityPair = tw.div`
@@ -455,9 +454,9 @@ const LiquidityTitle = tw.div`
 `;
 
 const WithdrawButton = tw.button`
-  bg-green-2 hover:bg-green-3 text-white font-semibold h-36 w-150
+  bg-green hover:bg-green text-white font-semibold h-36 w-150
   px-16 py-2 rounded-md 
-  border-solid border-green-3 border-2
+  border-solid border-green border-2
 `;
 
 const LiquidityAmount = tw.div`
@@ -466,7 +465,7 @@ const LiquidityAmount = tw.div`
 
 const ContentWrapper = tw.div`
   flex flex-col gap-16 p-16 w-800
-  bg-green-1
+  bg-green
 `;
 
 const ContentTitle = tw.div`
@@ -478,7 +477,7 @@ const ContentSubTitle = tw.div`
 `;
 
 const ClaimWrapper = tw.div`
-  flex w-700 bg-green-1 items-center justify-center
+  flex w-700 bg-green items-center justify-center
   gap-16 p-48
 `;
 
@@ -487,7 +486,7 @@ const ClaimImage = tw.img`
 `;
 
 const Order = tw.div`
-  flex items-center justify-between p-8 gap-8 bg-green-2
+  flex items-center justify-between p-8 gap-8 bg-green
 `;
 interface orderButtonInterface {
   able?: boolean;
@@ -495,11 +494,11 @@ interface orderButtonInterface {
 
 const OrderButton = styled.button<orderButtonInterface>(({ able }) => [
   tw`
-  bg-green-2 hover:bg-green-3 text-white font-xl-m h-36 w-150
+  bg-green hover:bg-green text-white font-xl-m h-36 w-150
   px-16 py-2 rounded-md 
-  border-solid border-2 border-green-3 cursor-pointer
+  border-solid border-2 border-green cursor-pointer
 `,
-  !able && tw`bg-green-1 hover:bg-green-1 cursor-not-allowed text-gray-400`,
+  !able && tw`bg-green hover:bg-green cursor-not-allowed text-gray-400`,
 ]);
 
 const OrderText = tw.div`
@@ -515,9 +514,9 @@ const TestContainer = tw.div`
 `;
 
 const TestButton = tw.button`
-  bg-green-2 hover:bg-green-3 text-white font-xl-m h-48 w-200
+  bg-green hover:bg-green text-white font-xl-m h-48 w-200
   px-16 py-2 rounded-md 
-  border-solid border-2 border-green-3 cursor-pointer
+  border-solid border-2 border-green cursor-pointer
 `;
 
 export default DashBoard;

@@ -56,7 +56,7 @@ const SwapPage = () => {
                     <TokenSelectOption value="EUR">EUR</TokenSelectOption>
                   </TokenSelect>
                 </TokenBox>
-                <ArrowRight color="white" />
+                <ArrowRight color="#2FF582" />
                 <TokenBox>
                   <TokenText>Buy Token</TokenText>
                   <TokenSelect
@@ -113,7 +113,7 @@ const Container = tw.div`
 `;
 
 const Title = tw.h1`
-  text-2xl font-bold mb-4
+  font-40-sb text-white
 `;
 
 const InputWrapper = tw.div`
@@ -126,7 +126,7 @@ const TokenContainer = tw.div`
 
 const TokenBox = tw.div`
   flex items-center justify-center
-  bg-green-2 rounded-lg p-24 gap-12
+  bg-gray-50 rounded-lg p-24 gap-12
 `;
 
 const ArrowRight = styled(IconDown)`
@@ -134,7 +134,7 @@ const ArrowRight = styled(IconDown)`
 `;
 
 const TokenText = tw.div`
-  font-xl-m text-green-7
+  font-xl-m text-white
 `;
 
 const InputContainer = tw.div`
@@ -151,7 +151,7 @@ const SwapHeadContainer = tw.div`
 `;
 
 const InputTitle = tw.div`
-  flex font-xxl-b text-green-7 w-full
+  flex font-xxl-b text-green w-full
 `;
 
 const NoiseContainer = tw.div`
@@ -159,7 +159,7 @@ const NoiseContainer = tw.div`
 `;
 
 const NoiseText = tw.div`
-  flex font-xxl-l text-green-7 
+  flex font-xxl-b text-white 
 `;
 
 const Noise = styled.input`
@@ -167,10 +167,11 @@ const Noise = styled.input`
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  background: ${tw`bg-green-2`};
+  border-radius: 10px;
+  background: ${tw`bg-gray-50`};
 
   &::-webkit-slider-thumb {
-    ${tw`bg-green-3`}
+    ${tw`bg-black border-solid border-5 border-green`}
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -180,7 +181,7 @@ const Noise = styled.input`
   }
 
   &::-moz-range-thumb {
-    ${tw`bg-green-3`}
+    ${tw`bg-green`}
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -189,35 +190,31 @@ const Noise = styled.input`
 `;
 
 const NoiseLevel = tw.div`
-  flex font-xxl-l text-green-7 
+  flex font-xxl-l text-white 
 `;
 
 const InputBox = tw.div`
   flex items-center p-48 gap-8
-  border-solid border-5 border-green-3 rounded-lg p-2
-  bg-green-1
+  rounded-lg p-2
+  bg-gray-0
 `;
 
 const StyledInput = tw.input`
-  text-center w-250 h-60
-  border-solid border-2 border-green-2
-  bg-green-2
-  focus:(border-solid border-2 border-green-3)
+  text-center w-250 h-60 
+  bg-gray-50 border-none
+  focus:(border-solid border-2 border-green)
   focus-visible:outline-none
-  font-xl-m text-green-7
+  font-xl-m text-white
 `;
 
 const TokenSelect = tw.select`
-  bg-green-2
-  border-solid border-2 border-green-3
-  focus:(border-solid border-2 border-green-3)
+  bg-transparent border-none
   focus-visible:outline-none
-  font-xl-m text-green-7
-  placeholder:(text-green-1)
+  font-xxl-b text-white
 `;
 
 const TokenSelectOption = tw.option`
-  w-100 bg-green-2
+  w-100 bg-green
 `;
 
 const SelectedToken = tw.div`
@@ -230,11 +227,15 @@ interface SwapButtonProps {
 
 const SwapButton = styled.button<SwapButtonProps>(({ disabled }) => [
   tw`
-  bg-green-2 hover:bg-green-3 text-white font-xl-m h-48 w-300
+  bg-black text-green font-xxl-b h-48 w-300
   px-16 py-2 rounded-md 
-  border-solid border-2 border-green-3 cursor-pointer
+  border-solid border-2 border-green cursor-pointer
+  hover:(bg-green text-black)
 `,
-  disabled && tw`bg-green-1 hover:bg-green-1 cursor-not-allowed text-gray-400`,
+  disabled &&
+    tw`bg-black cursor-not-allowed text-gray-100 border-gray-100
+  hover:(bg-black text-gray-100)
+  `,
 ]);
 
 export default SwapPage;

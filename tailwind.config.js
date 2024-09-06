@@ -36,21 +36,13 @@ module.exports = {
         ...defaultTheme.colors,
 
         white: "#ffffff",
-        black: "#000000",
+        black: "#0b0b0b",
 
-        green: {
-          1: "#022137",
-          2: "#0E3C49",
-          3: "#2D6D67",
-          4: "#1BC4C9",
-          5: "#35EDD4",
-          6: "#B8FFE1",
-          7: "#F6FEEF",
-        },
+        green: "#2FF582",
         gray: {
-          0: "#EEEEEE",
-          50: "#F8F9FA",
-          100: "#F1F3F4",
+          0: "#222222",
+          50: "#3c3c3c",
+          100: "#A7A7A7",
           200: "#E8EAED",
           300: "#DADCE0",
           400: "#BDC1C6",
@@ -268,6 +260,11 @@ module.exports = {
         ".font-xxxxl-b": {
           fontSize: "32px",
           lineHeight: "40px",
+          fontWeight: 600,
+        },
+        ".font-40-sb": {
+          fontSize: "40px",
+          lineHeight: "44px",
           fontWeight: 600,
         },
       });

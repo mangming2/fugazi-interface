@@ -72,7 +72,9 @@ export const Header = () => {
             <StyledDiv>symbol: {balance?.symbol}</StyledDiv>
             <StyledDiv>
               Balance:{" "}
-              {balance?.value ? formatEther(balance.value) : "Loading..."}
+              {balance?.value
+                ? formatEther(balance.value).slice(0, 5) + "..."
+                : "Loading..."}
             </StyledDiv>
           </>
         )}
@@ -96,7 +98,9 @@ export const Header = () => {
 
 const Wrapper = tw.div`
   flex items-center justify-between px-16
-  gap-16 bg-green-1 h-64 
+  gap-16 bg-black min-h-64 
+  border-solid border-b-2 border-gray-100
+  border-t-0 border-l-0 border-r-0
 `;
 
 const ForwardContainer = tw.div`
@@ -115,27 +119,27 @@ const Logo = tw.img`
   w-100 cursor-pointer
 `;
 
-const Title = tw.h1`
-  text-2xl font-semibold text-white cursor-pointer
-`;
-
 interface NavItemProps {
   active: boolean;
 }
 
 const NavItem = styled.div<NavItemProps>(({ active }) => [
   tw`
-  text-white font-semibold bg-none
-  border-solid border-2 border-green-2 cursor-pointer
-  hover:bg-green-3 px-16 py-8 rounded-md
+  text-gray-100 font-semibold bg-none
+  cursor-pointer
+  px-16 py-8 rounded-md
+  hover:(text-green)
 `,
-  active && tw`bg-green-3`,
+  active && tw`bg-green text-black`,
 ]);
 
 const ConnectButton = tw.button`
-  bg-green-2 hover:bg-green-3 text-white font-semibold h-36
+  border-solid border-1 border-green 
+  text-green font-semibold h-36
+  bg-black
   px-16 py-2 rounded-md 
-  border-none
+  cursor-pointer
+  hover:(text-black bg-green)
 `;
 
 const StyledDiv = tw.div`
