@@ -194,7 +194,7 @@ const NoiseContainer = tw.div`
 `;
 
 const NoiseText = tw.div`
-  flex font-xxl-l text-green 
+  flex font-xxl-b text-white 
 `;
 
 const Noise = styled.input`
@@ -225,7 +225,7 @@ const Noise = styled.input`
 `;
 
 const NoiseLevel = tw.div`
-  flex font-xxl-l text-green 
+  flex font-xxl-b text-white 
 `;
 
 export default PoolPage;
