@@ -358,7 +358,7 @@ interface TokenBalanceButtonProps {
 const TokenBalanceButton = styled.button<TokenBalanceButtonProps>(
   ({ disabled }) => [
     tw`
-  bg-black text-green font-xl-b h-48 w-300
+  bg-black text-green font-l-b h-48 w-300
   px-16 py-2 rounded-md 
   border-solid border-2 border-green cursor-pointer
   hover:(bg-green text-black)
