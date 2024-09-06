@@ -107,6 +107,14 @@ const PoolPage = () => {
               : "Add Liquidity"}
           </StyledButton>
         </Contents>
+        <Description>
+          When noise is set to a non-zero value, the privacy fee will be
+          deducted from the first token in the pair.
+          <br />
+          For instance, if you select FGZ-USD, the fee will be charged in FGZ.
+          <br />
+          Conversely, if you choose USD-FGZ, the fee will be paid in USD.
+        </Description>
       </Container>
     </Wrapper>
   );
@@ -228,7 +236,8 @@ const NoiseLevel = tw.div`
   flex font-xxl-b text-white 
 `;
 
+const Description = tw.div`
+  flex font-xl-b text-white 
+`;
+
 export default PoolPage;
-function useFugaziOrderFacet(): { addLiquidity: any } {
-  throw new Error("Function not implemented.");
-}
