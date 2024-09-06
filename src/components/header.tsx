@@ -130,7 +130,7 @@ const NavItem = styled.div<NavItemProps>(({ active }) => [
   px-16 py-8 rounded-md
   hover:(text-green)
 `,
-  active && tw`bg-green text-black`,
+  active && tw`bg-green text-black hover:text-black`,
 ]);
 
 const ConnectButton = tw.button`
