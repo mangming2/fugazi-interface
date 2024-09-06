@@ -146,7 +146,7 @@ const InputTitle = tw.div`
 `;
 
 const InputBox = tw.div`
-  w-480 p-24
+  w-380 p-24
   rounded-lg
   bg-gray-0
 `;
