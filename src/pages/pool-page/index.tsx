@@ -24,7 +24,7 @@ const PoolPage = () => {
       tokenXToken,
       Number(tokenYAmount),
       tokenYToken,
-      noiseLevel > 0 ? (noiseLevel / 200) * 2047 : 0
+      Math.floor(noiseLevel > 0 ? (noiseLevel / 200) * 2047 : 0)
       //noiseLevel
     );
   };

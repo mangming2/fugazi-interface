@@ -15,7 +15,8 @@ const SwapPage = () => {
 
   const { isPending: isPendingGetPoolId } = usePoolActionFacet();
 
-  const { submitSwapOrder } = useFugaziOrderFacetContract();
+  const { isPending: isPendingSubmitSwapOrder, submitSwapOrder } =
+    useFugaziOrderFacetContract();
 
   const handleSellTokenChange = (token: string) => {
     setInputToken(token);
@@ -30,14 +31,14 @@ const SwapPage = () => {
       Number(inputAmount),
       inputToken,
       outputToken,
-      noiseLevel > 0 ? (noiseLevel / 200) * 2047 : 0
+      Math.floor(noiseLevel > 0 ? (noiseLevel / 200) * 2047 : 0)
     );
     console.log("result", result);
   };
 
   return (
     <Wrapper>
-      {isPendingGetPoolId && <Loading />}
+      {isPendingGetPoolId || (isPendingSubmitSwapOrder && <Loading />)}
       <Header />
       <Container>
         <Title>Swap Encrypted Tokens</Title>
