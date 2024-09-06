@@ -257,33 +257,36 @@ const DashBoard = () => {
 
         <LiquidityWrapper>
           <ContentTitle>LP Balances</ContentTitle>
+          <LiquidityBox>
+            {dummyLiquidity.map((liquidity, index) => (
+              <Liquidity key={index}>
+                <LiquidityPair>
+                  <TokenLogo src={liquidity.token1Logo} alt="token-logo" />
+                  <TokenLogo src={liquidity.token2Logo} alt="token-logo" />
+                </LiquidityPair>
+                <LiquidityTitle>
+                  {liquidity.token1} - {liquidity.token2}
+                </LiquidityTitle>
+                <LiquidityAmount>
+                  LP Token Balance :{" "}
+                  {lpBalance.length > 0
+                    ? Number(lpBalance[index])
+                    : "loading..."}
+                </LiquidityAmount>
 
-          {dummyLiquidity.map((liquidity, index) => (
-            <Liquidity key={index}>
-              <LiquidityPair>
-                <TokenLogo src={liquidity.token1Logo} alt="token-logo" />
-                <TokenLogo src={liquidity.token2Logo} alt="token-logo" />
-              </LiquidityPair>
-              <LiquidityTitle>
-                {liquidity.token1} - {liquidity.token2}
-              </LiquidityTitle>
-              <LiquidityAmount>
-                LP Token Balance :{" "}
-                {lpBalance.length > 0 ? Number(lpBalance[index]) : "loading..."}
-              </LiquidityAmount>
-
-              <WithdrawButton
-                onClick={() =>
-                  handleRemoveLiquidity(
-                    ADDRESSES[liquidity.token1],
-                    ADDRESSES[liquidity.token2]
-                  )
-                }
-              >
-                Remove Liquidity
-              </WithdrawButton>
-            </Liquidity>
-          ))}
+                <WithdrawButton
+                  onClick={() =>
+                    handleRemoveLiquidity(
+                      ADDRESSES[liquidity.token1],
+                      ADDRESSES[liquidity.token2]
+                    )
+                  }
+                >
+                  Remove Liquidity
+                </WithdrawButton>
+              </Liquidity>
+            ))}
+          </LiquidityBox>
         </LiquidityWrapper>
 
         <ContentWrapper>
@@ -348,19 +351,6 @@ const Container = tw.div`
   p-48 gap-24
 `;
 
-const BalanceWrapper = tw.div`
-  flex gap-8 p-16 w-800
-  bg-green
-`;
-
-const TextWrapper = tw.div`
-  flex flex-col gap-16 justify-center
-`;
-
-const BalanceDescription = tw.div`
-  flex flex-col gap-16
-`;
-
 interface TokenBalanceButtonProps {
   disabled?: boolean;
 }
@@ -368,37 +358,31 @@ interface TokenBalanceButtonProps {
 const TokenBalanceButton = styled.button<TokenBalanceButtonProps>(
   ({ disabled }) => [
     tw`
-  bg-green hover:bg-green text-white font-xl-m h-48 w-300
+  bg-black text-green font-xl-b h-48 w-300
   px-16 py-2 rounded-md 
   border-solid border-2 border-green cursor-pointer
+  hover:(bg-green text-black)
 `,
-    disabled && tw`bg-green hover:bg-green cursor-not-allowed text-gray-400`,
+    disabled &&
+      tw`bg-black cursor-not-allowed text-gray-100 border-gray-100
+  hover:(bg-black text-gray-100)
+  `,
   ]
 );
 
-const MyBalance = tw.div`
-  font-l-m
-`;
-
-const BalanceButtonWrapper = tw.div`
-  flex items-center gap-8
-`;
-
 const TokenBalanceContainer = tw.div`
-  flex flex-col items-center justify-between p-8 gap-8 bg-green
+  flex flex-col items-center justify-between p-8 gap-8
+  border-solid border-2 border-gray-50
 `;
 
 const BalanceBox = tw.div`
-  flex items-center justify-between p-8 gap-8 bg-green
+  flex items-center justify-between p-8 gap-8
 `;
 
 const TokenSelect = tw.select`
-  bg-green
-  border-solid border-2 border-green
-  focus:(border-solid border-2 border-green)
+  bg-transparent border-none
   focus-visible:outline-none
-  font-xl-m text-green
-  placeholder:(text-green)
+  font-xxl-b text-white
 `;
 
 const TokenSelectOption = tw.option`
@@ -414,31 +398,25 @@ const WithdrawInputWrapper = tw.div`
 `;
 
 const StyledInput = tw.input`
-  text-center w-250 h-40
-  border-solid border-2 border-green
-  bg-green
+  text-center w-250 h-60 
+  bg-gray-50 border-none
   focus:(border-solid border-2 border-green)
   focus-visible:outline-none
-  font-xl-m text-green
-`;
-
-const ClaimImageWrapper = tw.div`
-  flex flex-col items-center gap-8
-`;
-
-const ClaimButton = tw.button`
-  bg-green hover:bg-green text-white font-semibold h-36 w-150
-  px-16 py-2 rounded-md 
-  border-none
+  font-xl-m text-white
 `;
 
 const LiquidityWrapper = tw.div`
   flex flex-col gap-8 p-16 w-800
-  bg-green
+  bg-gray-0
+`;
+
+const LiquidityBox = tw.div`
+  flex flex-col gap-8 bg-black
+  p-8
 `;
 
 const Liquidity = tw.div`
-  flex items-center justify-between p-8 gap-8 bg-green
+  flex items-center justify-between p-8 gap-8 bg-gray-0
 `;
 
 const LiquidityPair = tw.div`
@@ -454,9 +432,10 @@ const LiquidityTitle = tw.div`
 `;
 
 const WithdrawButton = tw.button`
-  bg-green hover:bg-green text-white font-semibold h-36 w-150
+  bg-black text-green font-xxl-b h-48 w-300
   px-16 py-2 rounded-md 
-  border-solid border-green border-2
+  border-solid border-2 border-green cursor-pointer
+  hover:(bg-green text-black)
 `;
 
 const LiquidityAmount = tw.div`
@@ -465,7 +444,7 @@ const LiquidityAmount = tw.div`
 
 const ContentWrapper = tw.div`
   flex flex-col gap-16 p-16 w-800
-  bg-green
+  bg-gray-0
 `;
 
 const ContentTitle = tw.div`
@@ -476,17 +455,8 @@ const ContentSubTitle = tw.div`
   font-l-m 
 `;
 
-const ClaimWrapper = tw.div`
-  flex w-700 bg-green items-center justify-center
-  gap-16 p-48
-`;
-
-const ClaimImage = tw.img`
-  w-300 h-300
-`;
-
 const Order = tw.div`
-  flex items-center justify-between p-8 gap-8 bg-green
+  flex items-center justify-between p-8 gap-8 bg-black border-solid border-2 border-gray-50
 `;
 interface orderButtonInterface {
   able?: boolean;
@@ -494,11 +464,16 @@ interface orderButtonInterface {
 
 const OrderButton = styled.button<orderButtonInterface>(({ able }) => [
   tw`
-  bg-green hover:bg-green text-white font-xl-m h-36 w-150
+  bg-black text-green font-xl-b h-48 w-130
   px-16 py-2 rounded-md 
   border-solid border-2 border-green cursor-pointer
+  hover:(bg-green text-black)
 `,
-  !able && tw`bg-green hover:bg-green cursor-not-allowed text-gray-400`,
+  !able &&
+    tw`
+    bg-black cursor-not-allowed text-gray-100 border-gray-100
+    hover:(bg-black text-gray-100)
+  `,
 ]);
 
 const OrderText = tw.div`
@@ -514,12 +489,10 @@ const TestContainer = tw.div`
 `;
 
 const TestButton = tw.button`
-  bg-green hover:bg-green text-white font-xl-m h-48 w-200
+  bg-black text-green font-xl-b h-48 w-200
   px-16 py-2 rounded-md 
   border-solid border-2 border-green cursor-pointer
+  hover:(bg-green text-black)
 `;
 
 export default DashBoard;
-function useFugaziOrderFacet(): { removeLiquidity: any } {
-  throw new Error("Function not implemented.");
-}

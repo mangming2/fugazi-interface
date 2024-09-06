@@ -239,7 +239,7 @@ module.exports = {
         ".font-l-2b": { fontSize: "16px", lineHeight: "26px", fontWeight: 600 },
 
         ".font-xl-m": { fontSize: "20px", lineHeight: "25px", fontWeight: 500 },
-
+        ".font-xl-b": { fontSize: "20px", lineHeight: "25px", fontWeight: 600 },
         ".font-xxl-l": {
           fontSize: "22px",
           lineHeight: "30px",
