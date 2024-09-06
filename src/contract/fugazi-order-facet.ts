@@ -91,10 +91,22 @@ export const useFugaziOrderFacetContract = () => {
           inputAmount,
           EncryptionTypes.uint64
         );
+        const amountX = inputTokenAddress < outputTokenAddress ? amountIn : 0;
+        const amountY = inputTokenAddress < outputTokenAddress ? 0 : amountIn;
+        const isNoiseReferenceX = inputTokenAddress < outputTokenAddress;
+        const isSwap = true;
+
+        const encryptedPackedOrder = await packAndEncryptOrder(
+          amountX,
+          amountY,
+          noiseAmplitude,
+          isNoiseReferenceX,
+          isSwap
+        );
 
         const result = await actionContract.submitOrder(
           poolId,
-          encryptedAmountIn
+          encryptedPackedOrder
         );
         console.log("swap order result", result);
         return result;
@@ -179,16 +191,22 @@ export const useFugaziOrderFacetContract = () => {
       ? inputAmount + (noiseAmplitude << 32)
       : inputAmount + 2147483648 + (noiseAmplitude << 32);
 
-    const encryptedAmountIn = await client.encrypt(
-      inputAmount,
-      EncryptionTypes.uint64
+    const isNoiseReferenceX = inputTokenAddress < outputTokenAddress;
+    const isSwap = false;
+
+    const encryptedPackedOrder = await packAndEncryptOrder(
+      amount0,
+      amount1,
+      noiseAmplitude,
+      isNoiseReferenceX,
+      isSwap
     );
 
     setIsPending(true);
     try {
       const result = await actionContract.submitOrder(
         poolId,
-        encryptedAmountIn
+        encryptedPackedOrder
       );
       console.log("swap order result", result);
       return result;
@@ -242,6 +260,54 @@ export const useFugaziOrderFacetContract = () => {
     } finally {
       setIsPending(false);
     }
+  };
+
+  const packAndEncryptOrder = async (
+    amountX: number,
+    amountY: number,
+    noiseAmplitude?: number,
+    isNoiseReferenceX?: boolean,
+    isSwap?: boolean
+  ) => {
+    // Validate the input values to ensure they fit in their respective bit sizes
+    if (amountX < 0 || amountX > 32767) {
+      throw new Error("amountX must be between 0 and 32767 (15 bits)");
+    }
+    if (amountY < 0 || amountY > 32767) {
+      throw new Error("amountY must be between 0 and 32767 (15 bits)");
+    }
+    if (noiseAmplitude < 0 || noiseAmplitude > 2047) {
+      throw new Error("noiseAmplitude must be between 0 and 2047 (11 bits)");
+    }
+
+    // Pack the values into a single bigint
+    let packedAmount: bigint = BigInt(0);
+
+    // Pack amountY (15 bits)
+    packedAmount |= BigInt(amountY);
+
+    // Pack amountX (15 bits), shift it by 15
+    packedAmount |= BigInt(amountX) << BigInt(15);
+
+    // Pack isSwap (1 bit), shift by 30 (isSwap = true means 0 for swap, 1 for addLiquidity)
+    packedAmount |= BigInt(isSwap ? 0 : 1) << BigInt(30);
+
+    // Pack isNoiseReferenceX (1 bit), shift by 31
+    packedAmount |= BigInt(isNoiseReferenceX ? 1 : 0) << BigInt(31);
+
+    // Pack noiseAmplitude (11 bits), shift by 32
+    packedAmount |= BigInt(noiseAmplitude) << BigInt(32);
+
+    // Log the packed amount in binary
+    console.log("Packed amount in binary: ", packedAmount.toString(2));
+
+    // Encrypt the packed amount using fhenixjs.encrypt_euint64()
+    const encryptedPackedAmount = await client.encrypt(
+      Number(packedAmount),
+      EncryptionTypes.uint64
+    );
+
+    return encryptedPackedAmount;
   };
 
   return { isPending, submitSwapOrder, addLiquidity, removeLiquidity };

@@ -282,7 +282,7 @@ const DashBoard = () => {
                     )
                   }
                 >
-                  Remove Liquidity
+                  Remove Liquidity (-100)
                 </WithdrawButton>
               </Liquidity>
             ))}
@@ -432,7 +432,7 @@ const LiquidityTitle = tw.div`
 `;
 
 const WithdrawButton = tw.button`
-  bg-black text-green font-xxl-b h-48 w-300
+  bg-black text-green font-xl-b h-48 w-300
   px-16 py-2 rounded-md 
   border-solid border-2 border-green cursor-pointer
   hover:(bg-green text-black)
