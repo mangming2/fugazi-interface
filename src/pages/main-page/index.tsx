@@ -17,7 +17,8 @@ const MainPage = () => {
           />
           <TextBox>
             <ServiceDescriptionSubTitle>
-              We are the Most Authentic and the Most Secure Dark Pool.
+              We are the Most Authentic and
+              <br /> the Most Secure Dark Pool
             </ServiceDescriptionSubTitle>
           </TextBox>
         </ServiceDescription>
@@ -37,7 +38,7 @@ const Body = tw.div`
 `;
 
 const ServiceDescription = tw.div`
-  flex flex-col w-full justify-center items-center gap-12
+  flex flex-col w-full justify-center items-center gap-24
 `;
 
 const LogoImage = tw.img`
@@ -49,5 +50,5 @@ const TextBox = tw.div`
 `;
 
 const ServiceDescriptionSubTitle = tw.div`
-  text-40 font-semibold text-logo
+  text-30 leading-34 font-regular 
 `;
