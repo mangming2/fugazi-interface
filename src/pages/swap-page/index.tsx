@@ -4,7 +4,7 @@ import tw from "twin.macro";
 import { usePoolActionFacet } from "../../contract/pool-action-facet";
 import Loading from "../../components/loading";
 import styled from "@emotion/styled/macro";
-import { IconDown } from "../../components/icon";
+import { IconDown, IconRight } from "../../components/icon";
 import { useFugaziOrderFacetContract } from "../../contract/fugazi-order-facet";
 
 const SwapPage = () => {
@@ -57,7 +57,7 @@ const SwapPage = () => {
                     <TokenSelectOption value="EUR">EUR</TokenSelectOption>
                   </TokenSelect>
                 </TokenBox>
-                <ArrowRight color="#2FF582" />
+                <IconRight color="#2FF582" />
                 <TokenBox>
                   <TokenText>Buy Token</TokenText>
                   <TokenSelect

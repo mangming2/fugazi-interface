@@ -5,6 +5,7 @@ import { usePoolActionFacet } from "../../contract/pool-action-facet";
 import Loading from "../../components/loading";
 import styled from "@emotion/styled";
 import { useFugaziOrderFacetContract } from "../../contract/fugazi-order-facet";
+import { IconPlus } from "../../components/icon";
 
 const PoolPage = () => {
   const [tokenXAmount, setTokenXAmount] = useState("");
@@ -12,6 +13,8 @@ const PoolPage = () => {
   const [tokenYAmount, setTokenYAmount] = useState("");
   const [tokenYToken, setTokenYToken] = useState("USD");
   const [noiseLevel, setNoiseLevel] = useState<number>(0);
+
+  const [isHovered, setIsHovered] = useState(false);
 
   const { isPending: isPendingGetPoolId } = usePoolActionFacet();
 
@@ -100,11 +103,18 @@ const PoolPage = () => {
 
           <StyledButton
             onClick={handleAddLiquidity}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
             disabled={tokenXAmount === "" || tokenYAmount === ""}
           >
-            {tokenXAmount === "" || tokenYAmount === ""
-              ? "Type Amount First"
-              : "Add Liquidity"}
+            {tokenXAmount === "" || tokenYAmount === "" ? (
+              "Type Amount First"
+            ) : (
+              <LiquidityButtonBox>
+                <IconPlus color={isHovered ? "black" : "#2FF582"} />
+                Add Liquidity
+              </LiquidityButtonBox>
+            )}
           </StyledButton>
         </Contents>
         <Description>
@@ -134,6 +144,10 @@ const Title = tw.h1`
 
 const Contents = tw.div`
   flex gap-64 items-center
+`;
+
+const LiquidityButtonBox = tw.div`
+  flex gap-16 items-center justify-center
 `;
 
 const InputWrapper = tw.div`

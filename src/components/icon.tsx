@@ -22,3 +22,43 @@ export const IconDown = ({ color, ...rest }: IconProps) => (
     />
   </svg>
 );
+
+export const IconRight = ({ color, ...rest }: IconProps) => (
+  <svg
+    width="28"
+    height="18"
+    viewBox="0 0 28 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    preserveAspectRatio="none"
+    {...rest}
+  >
+    <path
+      d="M1 9L27 9M27 9L18.75 1M27 9L18.75 17"
+      stroke={color ?? "#2FF582"}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const IconPlus = ({ color, ...rest }: IconProps) => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    preserveAspectRatio="none"
+    {...rest}
+  >
+    <path
+      d="M8 1V15M1 8H15"
+      stroke={color ?? "#2FF582"}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
